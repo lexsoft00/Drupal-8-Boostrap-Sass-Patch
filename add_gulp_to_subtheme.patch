@@ -1,0 +1,64 @@
+diff --git a/bootstrap.drush.inc b/bootstrap.drush.inc
+index 22d1f0b..2c6eb27 100644
+--- a/bootstrap.drush.inc
++++ b/bootstrap.drush.inc
+@@ -183,7 +183,14 @@ function drush_bootstrap_sub_theme($name = NULL, $machine_name = NULL, $descript
+   ));
+   drush_pm_enable_validate($machine_name);
+   drush_pm_enable($machine_name);
+-
++    $src = $getstudio_path . '/' . "gulp";
++  $dest = $subtheme_path;
++  bootstrap_drush_copy_dir($src, $dest, $overwrite = FILE_EXISTS_MERGE);
++  drush_print(dt("\n!name Bootstrap Sass sub-theme was successfully created! \n",
++    array(
++      '!name' => $name,
++    )
++  ));
+ }
+ 
+ /**
+@@ -195,6 +202,35 @@ function bootstrap_file_str_replace($file_path, $find, $replace) {
+   file_put_contents($file_path, $file_contents);
+ }
+ 
++function bootstrap_drush_copy_dir($src, $dest, $overwrite = FILE_EXISTS_ABORT) {
++    if (file_exists($dest)) {
++    if ($overwrite === FILE_EXISTS_OVERWRITE) {
++      drush_op('drush_delete_dir', $dest, TRUE);
++    }
++    elseif ($overwrite === FILE_EXISTS_ABORT) {
++      return drush_set_error('DRUSH_DESTINATION_EXISTS', dt('Destination directory !dest already exists.', array('!dest' => $dest)));
++    }
++    elseif ($overwrite === FILE_EXISTS_MERGE) {
++      // $overwrite flag may indicate we should merge instead.
++      drush_log(dt('Merging existing !dest directory', array('!dest' => $dest)));
++    }
++  }
++  // $src readable?
++  if (!is_readable($src)) {
++    return drush_set_error('DRUSH_SOURCE_NOT_EXISTS', dt('Source directory !src is not readable or does not exist.', array('!src' => $src)));
++  }
++  // $dest writable?
++  if (!is_writable(dirname($dest))) {
++    return drush_set_error('DRUSH_DESTINATION_NOT_WRITABLE', dt('Destination directory !dest is not writable.', array('!dest' => dirname($dest))));
++  }
++  // Try to do a recursive copy.
++  if (@drush_op('_drush_recursive_copy', $src, $dest)) {
++    return TRUE;
++  }
++
++  return drush_set_error('DRUSH_COPY_DIR_FAILURE', dt('Unable to copy !src to !dest.', array('!src' => $src, '!dest' => $dest)));
++  }
++  
+ /**
+  * Implements hook_drush_help().
+  */
+@@ -203,4 +239,5 @@ function bootstrap_drush_help($section) {
+     case 'drush:bootstrap-sub-theme':
+       return dt("Create a Boostrap custom sub-theme.");
+   }
+-}
+\ No newline at end of file
++}
++
