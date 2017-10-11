@@ -1,0 +1,42 @@
+diff --git a/bootstrap.drush.inc b/bootstrap.drush.inc
+index 22d1f0b..5c1cd86 100644
+--- a/bootstrap.drush.inc
++++ b/bootstrap.drush.inc
+@@ -158,6 +158,37 @@ function drush_bootstrap_sub_theme($name = NULL, $machine_name = NULL, $descript
+   drush_op('rename', "$subtheme_path/config/install/THEMENAME.settings.yml", "$subtheme_path/config/install/$machine_name.settings.yml");
+   drush_op('rename', "$subtheme_path/config/schema/THEMENAME.schema.yml", "$subtheme_path/config/schema/$machine_name.schema.yml");
+ 
++ // Rename Config Optional Blocks
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_account_menu.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "account_menu.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_branding.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "branding.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_breadcrumbs.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "breadcrumbs.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_content.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "content.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_footer.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "footer.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_help.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "help.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_local_actions.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "local_actions.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_local_tasks.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "local_tasks.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_main_menu.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "main_menu.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_messages.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "messages.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_page_title.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "page_title.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_powered.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "powered.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_search.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "search.yml");
++  drush_op('rename', "$subtheme_path/config/optional/block.block.bootstrap_tools.yml", "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "tools.yml");
++
++  // Change Optional Bootstrap Blocks to the name of the theme
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "account_menu.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "branding.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "breadcrumbs.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "content.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "footer.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "help.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "local_actions.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "local_tasks.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "main_menu.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "messages.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "page_title.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "powered.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "search.yml", 'bootstrap', "$machine_name");
++  drush_op('bootstrap_file_str_replace', "$subtheme_path/config/optional/block.block.$machine_name" . '_' . "tools.yml", 'bootstrap', "$machine_name");
+ 
+   // Change the name of the theme.
+   drush_op('bootstrap_file_str_replace', "$subtheme_path/$machine_name.info.yml", 'THEMETITLE', "$name");
